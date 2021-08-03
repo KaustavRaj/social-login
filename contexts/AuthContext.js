@@ -61,6 +61,14 @@ export const AuthProvider = ({ children }) => {
     fetchSecureStoreData();
   }, []);
 
+  const getBackendUrl = () => {
+    if (__DEV__) {
+      return process.env.DEV_BACKEND_URL;
+    } else {
+      return process.env.PROD_BACKEND_URL;
+    }
+  };
+
   const createLinkingUrl = () => {
     let linkingURL = Linking.makeUrl();
     console.log("linkingURL : ", linkingURL);
@@ -154,7 +162,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signIn = async (signInProvider) => {
-    let signInURL = `${process.env.BACKEND_URL}/login/${signInProvider}`;
+    let signInURL = `${getBackendUrl()}/login/${signInProvider}`;
 
     console.log("signInUrl : ", signInURL);
 
@@ -172,7 +180,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signOut = async () => {
-    let signOutURL = `${process.env.BACKEND_URL}/logout`;
+    let signOutURL = `${getBackendUrl()}/logout`;
 
     try {
       const { data } = await axios.get(signOutURL);
