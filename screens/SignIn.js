@@ -1,12 +1,16 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
 import { SocialIcon } from "react-native-elements";
 
 import { Layout } from "../components/Layout";
 import { useAuth } from "../contexts/AuthContext";
 
 const SignIn = (props) => {
-  const { signIn } = useAuth();
+  const { signIn, currentUser } = useAuth();
+
+  const googleSignIn = () => signIn("google-oauth2");
+
+  const facebookSignIn = () => signIn("facebook");
 
   const Title = () => {
     return (
@@ -16,29 +20,35 @@ const SignIn = (props) => {
     );
   };
 
-  const googleSignIn = () => signIn("google");
+  const LoadingScreen = () => (
+    <View style={styles.fullscreen}>
+      <ActivityIndicator size="large" color="#999999" />
+    </View>
+  );
 
-  const facebookSignIn = () => signIn("facebook");
+  const SignInScreen = () => (
+    <View style={styles.main}>
+      <Title />
+      <SocialIcon
+        button
+        title="Sign In With Google"
+        type="google"
+        style={styles.googleSignIn}
+        onPress={googleSignIn}
+      />
+      <SocialIcon
+        button
+        title="Sign In With Facebook"
+        type="facebook"
+        style={styles.facebookSignIn}
+        onPress={facebookSignIn}
+      />
+    </View>
+  );
 
   return (
     <Layout>
-      <View style={styles.main}>
-        <Title />
-        <SocialIcon
-          button
-          title="Sign In With Google"
-          type="google"
-          style={styles.googleSignIn}
-          onPress={googleSignIn}
-        />
-        <SocialIcon
-          button
-          title="Sign In With Facebook"
-          type="facebook"
-          style={styles.facebookSignIn}
-          onPress={facebookSignIn}
-        />
-      </View>
+      {currentUser.isLoading ? <LoadingScreen /> : <SignInScreen />}
     </Layout>
   );
 };
@@ -46,6 +56,12 @@ const SignIn = (props) => {
 export default SignIn;
 
 const styles = StyleSheet.create({
+  fullscreen: {
+    flex: 1,
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   main: {
     flex: 1,
     justifyContent: "center",

@@ -18,14 +18,8 @@ const InfoRow = ({ title, value }) => {
   );
 };
 
-const data = {
-  token: "1afdfc1725299989f888b89a33c6bd2d3fa9728c-2782029430",
-  name: "Kaustav Bhattacharjee",
-  email: "kaustav.bhattacharjee2000@gmail.com",
-};
-
 const Home = (props) => {
-  const { signOut } = useAuth();
+  const { signOut, currentUser } = useAuth();
 
   const Title = () => {
     return (
@@ -40,9 +34,9 @@ const Home = (props) => {
       <Title />
 
       <View style={styles.infoContainer}>
-        <InfoRow title="Email" value={data.email} />
-        <InfoRow title="Name" value={data.name} />
-        <InfoRow title="Token" value={data.token} />
+        <InfoRow title="Email" value={currentUser.email} />
+        <InfoRow title="Name" value={currentUser.name} />
+        <InfoRow title="Token" value={currentUser.accessToken} />
       </View>
 
       <Button title="Sign Out" type="solid" onPress={signOut} />

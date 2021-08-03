@@ -9,11 +9,11 @@ import { AuthProvider, useAuth } from "../contexts/AuthContext";
 const RootStack = createStackNavigator();
 
 const Screens = () => {
-  const { auth } = useAuth();
+  const { currentUser } = useAuth();
 
   return (
     <RootStack.Navigator headerMode="none">
-      {auth.isSignout ? (
+      {currentUser.isSignout ? (
         <RootStack.Screen name="Sign In" component={SignIn} />
       ) : (
         <RootStack.Screen name="Home" component={Home} />
