@@ -102,7 +102,7 @@ export const AuthProvider = ({ children }) => {
       ? parseInt(storedUserObject.tokenExpiryOn)
       : 0;
 
-    if (expiryOn > Math.floor(Date.now() / 1000)) {
+    if (expiryOn > Math.ceil(Date.now() / 1000)) {
       dispatch({
         type: "SIGN_IN",
         ...storedUserObject,
@@ -115,7 +115,7 @@ export const AuthProvider = ({ children }) => {
   const saveToSecureStore = async (userObject) =>
     Promise.all(
       Object.keys(userObject).map((key) =>
-        SecureStore.setItemAsync(key, JSON.stringify(userObject[key]))
+        SecureStore.setItemAsync(key, String(userObject[key]))
       )
     );
 
